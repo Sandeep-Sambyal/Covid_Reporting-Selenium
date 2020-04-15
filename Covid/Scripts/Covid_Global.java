@@ -87,8 +87,9 @@ public class Covid_Global {
 		
 		data_tot=data_tot+"</body>";
 		System.out.println(data_tot);
+		data_tot=data_tot.replace("null", "");
 		fileop(data_tot);	
-		send_mail(a, b);
+		//send_mail(a, b);
 
 	}
 	
