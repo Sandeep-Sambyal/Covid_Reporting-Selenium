@@ -85,7 +85,8 @@ public class Covid_Global {
 		fetch_data("India");
 		report_data("India",cnfrmd, actv, recvrd, dcsd);
 		
-		data_tot=data_tot+"</body>";
+		//data_tot=data_tot+"</body>";
+		data_tot=data_tot+"<table><br></br><br></br><br></br><td style="+"color:red"+">Note: To continue receiving this update kindly pay Rs 100/-</td></table></body>";
 		System.out.println(data_tot);
 		data_tot=data_tot.replace("null", "");
 		fileop(data_tot);	
@@ -277,10 +278,10 @@ public class Covid_Global {
 			
 			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsandeep31@gmail.com"));
 			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("abhisinghpune11@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalpritika@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sourabh2511991@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalgoverdhan@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsharda@gmail.com"));
+//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalpritika@gmail.com"));
+//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sourabh2511991@gmail.com"));
+//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalgoverdhan@gmail.com"));
+//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsharda@gmail.com"));
 //			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("geetanjali.tejwani@gmail.com"));
 
 			
