@@ -85,6 +85,7 @@ public class Covid_Global {
 		fetch_data("India");
 		report_data("India",cnfrmd, actv, recvrd, dcsd);
 		
+
 		//data_tot=data_tot+"</body>";
 		data_tot=data_tot+"<table><br></br><br></br><br></br><td style="+"color:red"+">Note: To continue receiving this update kindly pay Rs 100/-</td></table></body>";
 		System.out.println(data_tot);
@@ -94,6 +95,7 @@ public class Covid_Global {
 		
 		System.out.println("FREE");
 
+	
 	}
 	
 	public void fetch_world(String cntry) {
