@@ -3,6 +3,7 @@ package Scripts;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,25 +38,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Covid_Global {
 	WebDriver driver;
-	String cnfrmd,actv,recvrd,dcsd,old_cnfrmd,old_active,old_rcvrd,old_dcsd,a,b,data_tot;
-	 //Constructor-------!
-	
-	
-
-	 //Constructor-------!
-	
+	String cnfrmd,actv,recvrd,dcsd,old_cnfrmd,old_active,old_rcvrd,old_dcsd,a,b,data_tot,login_id,login_pwd;
+	 String sal[];
+	 
+ //Constructor-------!
 	Covid_Global() {
 	  
 	  System.setProperty("webdriver.gecko.driver",
 	  "C:\\Selenium\\JAR FIles\\geckodriver.exe"); 
-	  //FirefoxOptions options = new  FirefoxOptions(); 
-	  //options.setHeadless(true); 
-	  driver=new  FirefoxDriver(); 
+	  FirefoxOptions options = new  FirefoxOptions(); 
+	  options.setHeadless(true); 
+	  driver=new  FirefoxDriver(options); 
 	  }
 	 
 	
 	
-	//Launch Browser-------!
+//Launch Browser-------!
 	public void launch_browser() throws InterruptedException {
 		
 		driver.navigate().to("https://www.worldometers.info/coronavirus/");
@@ -64,11 +62,10 @@ public class Covid_Global {
 	}
 	
 
-
-	//Check Values from Browser-------!
+//Check Values from Browser-------!
 	public void fetch_values() throws IOException, InvalidFormatException, ClassNotFoundException, NoClassDefFoundError {
 	
-		 WebDriverWait wait = new WebDriverWait(driver,15);
+		WebDriverWait wait = new WebDriverWait(driver,15);
 
 		fetch_world("World");
 		excel_op("World",cnfrmd, actv, recvrd, dcsd);
@@ -86,16 +83,12 @@ public class Covid_Global {
 		report_data("India",cnfrmd, actv, recvrd, dcsd);
 		
 
-		//data_tot=data_tot+"</body>";
 		data_tot=data_tot+"<table><br></br><br></br><br></br><td style="+"color:red"+">Note: To continue receiving this update kindly pay Rs 100/-</td></table></body>";
 		System.out.println(data_tot);
 		data_tot=data_tot.replace("null", "");
 		fileop(data_tot);	
 		send_mail(a, b);
-		
-		System.out.println("FREE");
-
-	
+			
 	}
 	
 	public void fetch_world(String cntry) {
@@ -103,7 +96,6 @@ public class Covid_Global {
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id='main_table_countries_today']")));
 		cnfrmd=driver.findElement(By.xpath("//table[@id='main_table_countries_today']//td[text()='World']//following::td[1]")).getText();
-		//System.out.println(cnfrmd);
 		cnfrmd=check_string(cnfrmd);
 		dcsd=driver.findElement(By.xpath("//table[@id='main_table_countries_today']//td[text()='"+cntry+"']//following::td[3]")).getText();
 		dcsd=check_string(dcsd);
@@ -113,8 +105,7 @@ public class Covid_Global {
 		actv=check_string(actv);
 		System.out.println(cntry);
 		System.out.println(cnfrmd+","+actv+","+ recvrd +","+ dcsd);
-//		String data="<html><body><br></br><style> table, th, td { border: 1px solid black;	border-collapse: collapse;} th,td{padding:15px;text-align:left;}</style><table border="+1+"><caption style="+"color:blue"+">PROGRESSIVE CORONA REPORT - "+cntry+"</caption>	<tr><th width="+"20%"+" colspan="+2+">Confirmed</th><th width="+"20%"+" colspan="+2+">Active</th><th width="+20+"% colspan="+2+">Recovered</th>	<th width="+20+"% colspan="+2+">Deceased</th></tr><td >"+cnfrmd+"</td><td style="+"color:red"+">Inc by "+cnfrmd+"</td><td >"+actv+"</td><td style="+"color:red"+">Inc by "+actv+"</td><td >"+recvrd+"</td><td style="+"color:red"+">Inc by "+recvrd+"</td>	<td >"+dcsd+"</td><td style="+"color:red"+">Inc by "+dcsd+"</td></tr></table>";	
-//		data_tot=data_tot+data;
+
 	}
 //---- Fetch country wise values----	
 	public void t1(String cntry) {
@@ -122,7 +113,6 @@ public class Covid_Global {
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id='main_table_countries_today']")));
 		cnfrmd=driver.findElement(By.xpath("//table[@id='main_table_countries_today']//a[text()='"+cntry+"']//following::td[1]")).getText();
-		//System.out.println(cnfrmd);
 		cnfrmd=check_string(cnfrmd);
 		dcsd=driver.findElement(By.xpath("//table[@id='main_table_countries_today']//a[text()='"+cntry+"']//following::td[3]")).getText();
 		dcsd=check_string(dcsd);
@@ -132,8 +122,7 @@ public class Covid_Global {
 		actv=check_string(actv);
 		System.out.println(cntry);
 		System.out.println(cnfrmd+","+actv+","+ recvrd +","+ dcsd);
-//		String data="<html><body><br></br><style> table, th, td { border: 1px solid black;	border-collapse: collapse;} th,td{padding:15px;text-align:left;}</style><table border="+1+"><caption style="+"color:blue"+">PROGRESSIVE CORONA REPORT - "+cntry.toUpperCase()+"</caption>	<tr><th width="+"20%"+" colspan="+2+">Confirmed</th><th width="+"20%"+" colspan="+2+">Active</th><th width="+20+"% colspan="+2+">Recovered</th>	<th width="+20+"% colspan="+2+">Deceased</th></tr><td >"+cnfrmd+"</td><td style="+"color:red"+">Inc by "+cnfrmd+"</td><td >"+actv+"</td><td style="+"color:red"+">Inc by "+actv+"</td><td >"+recvrd+"</td><td style="+"color:red"+">Inc by "+recvrd+"</td>	<td >"+dcsd+"</td><td style="+"color:red"+">Inc by "+dcsd+"</td></tr></table>";	
-//		data_tot=data_tot+data;
+
 	}
 	
 //--- Removes comma from numbers--
@@ -144,7 +133,7 @@ public class Covid_Global {
 		return a;
 	}
 	
-	//Creates HTML Report data-------!
+//Creates HTML Report data-------!
 	public void report_data(String cntry,String confirmed,String active,String recovered,String deceased) throws IOException, InvalidFormatException, ClassNotFoundException, NoClassDefFoundError {
 		String data;
 		int val1= Integer.parseInt(confirmed)-Integer.parseInt(old_cnfrmd);
@@ -153,15 +142,12 @@ public class Covid_Global {
 		int val4=Integer.parseInt(deceased)-Integer.parseInt(old_dcsd);
 		System.out.println(val1+" "+val2+" "+val3+" "+val4);
 		System.out.println(val1);
-		//data="<body><table border="+1+"><tr >Corona Report</tr><tr><th width="+20+"%>Confirmed</th><th width="+20+"%>Active</th><th width="+20+"%>Recovered</th><th width=\"+20+\"%>Deceased</th></tr><!-- INSERT_RESULTS --><tr><td width="+15+"%>"+confirmed+"</td><td width="+15+"%>"+active+"</td><td width="+15+"%>"+recovered+"</td><td width=\"+15+\"%>"+deceased+"</td></tr></body>";
 		data="<html><body><br></br><style> table, th, td { border: 1px solid black;	border-collapse: collapse;} th,td{padding:15px;text-align:left;}</style><table border=\"+1+\"><caption style="+"color:blue"+">PROGRESSIVE CORONA REPORT - "+cntry.toUpperCase()+"</caption>		<tr><th width="+"20%"+" colspan="+2+">Confirmed</th><th width="+"20%"+" colspan="+2+">Active</th><th width="+20+"% colspan="+2+">Recovered</th>	<th width="+20+"% colspan="+2+">Deceased</th></tr><td >"+confirmed+"</td><td style="+"color:red"+">Inc by "+val1+"</td><td >"+active+"</td><td style="+"color:red"+">Inc by "+val2+"</td><td >"+recovered+"</td><td style="+"color:red"+">Inc by "+val3+"</td>	<td >"+deceased+"</td><td style="+"color:red"+">Inc by "+val4+"</td></tr></table></body>";	
 		data_tot=	data_tot+data;	
-		//fileop(data);
-		//send_mail(a,b);
 		
 	}
 	
-	//Write HTML data in txt file and then rename it to HTML-----!!!
+//Write HTML data in txt file and then rename it to HTML-----!!!
 	public void fileop(String data) throws IOException {
 		File f1=new File("D:\\Data\\education\\report.txt");
 		File f2=new File("D:\\Data\\education\\report.html");
@@ -184,19 +170,13 @@ public class Covid_Global {
 	public void excel_op(String sheet1,String val1, String val2, String val3, String val4) throws IOException, InvalidFormatException {
 		
 		File file=new File("D:\\Data\\education\\Covid reporting\\RecordSheet_COVID.xlsx");
-		/*boolean b=file.exists();
-		if  (b==false) {
-			file.createNewFile();
-		}*/
+
 		FileInputStream inputStream = new FileInputStream(file);
 		XSSFWorkbook wbook= new XSSFWorkbook(inputStream);
 		XSSFSheet sheet= wbook.getSheet(sheet1);
 		
 		
 		int lastcell;
-		
-		
-		//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		String s;
 		s="";
@@ -240,14 +220,11 @@ public class Covid_Global {
 				
 		int lastcell;
 		lastcell=sheet.getRow(sheet.getLastRowNum()).getLastCellNum();
-		//System.out.println(lastcell);
-		//System.out.println(sheet.getRow(1).getCell(lastcell-2).getCellType());
 		old_cnfrmd=sheet.getRow(1).getCell(lastcell-2).getStringCellValue();
 		old_active=sheet.getRow(2).getCell(lastcell-2).getStringCellValue();
 		old_rcvrd=sheet.getRow(3).getCell(lastcell-2).getStringCellValue();
 		old_dcsd=sheet.getRow(4).getCell(lastcell-2).getStringCellValue();
 		
-	
 		System.out.println(old_cnfrmd+" "+old_active+" "+old_rcvrd+" "+old_dcsd);
 		a=sheet.getRow(0).getCell(lastcell-2).getStringCellValue();
 		b=sheet.getRow(0).getCell(lastcell-1).getStringCellValue();
@@ -261,15 +238,20 @@ public class Covid_Global {
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", "465");
-			
+		props.put("mail.smtp.port", "465");
+		 try {
+			mail_values();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	
 			Session session = Session.getDefaultInstance(props,
 					 
 				new Authenticator() {
 
 					protected PasswordAuthentication getPasswordAuthentication() {
 
-					return new PasswordAuthentication("Sambyalsin@gmail.com", "zaq12#wsx");
+					return new PasswordAuthentication(login_id, login_pwd);
 
 					}
 
@@ -277,21 +259,12 @@ public class Covid_Global {
 
 		try {
 			Message message = new MimeMessage(session);
-			 
-			//message.setFrom(new InternetAddress("Sambyalsin@gmail.com"));
+				
+			for (String element: sal) {
+				message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(element));
+	        }
 			
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsandeep31@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("abhisinghpune11@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalpritika@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sourabh2511991@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalgoverdhan@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsharda@gmail.com"));
-
-
-			
-			
-			
-	        
+       
 			message.setSubject("CORONA COUNT");
 
 			BodyPart messageBodyPart1 = new MimeBodyPart();
@@ -337,11 +310,44 @@ public class Covid_Global {
 	}
 	
 
+	public void mail_values() throws IOException {
+		File file=new File("D:\\Data\\education\\Covid reporting\\RecordSheet_COVID.xlsx");
+		
+		FileInputStream inputStream = new FileInputStream(file);
+		XSSFWorkbook wbook= new XSSFWorkbook(inputStream);
+		XSSFSheet sheet= wbook.getSheet("Data");
+		String str="";		
+		int lastcell;
+		lastcell=sheet.getRow(sheet.getLastRowNum()).getLastCellNum();
+		int lastrow=sheet.getLastRowNum();
+		for (int i = 0; i <= lastrow; i++) {
+			if (sheet.getRow(i).getCell(3).getStringCellValue().equalsIgnoreCase("Y")) {
+				
+			if (str.equalsIgnoreCase("")) {
+					str=sheet.getRow(i).getCell(2).getStringCellValue();}
+			else {	
+					str=str+","+sheet.getRow(i).getCell(2).getStringCellValue();
+					
+				}
+			}
+		}
+	
+		  sal=str.split(",");
+		
+		  login_id=sheet.getRow(1).getCell(0).getStringCellValue();
+		  login_pwd=sheet.getRow(1).getCell(1).getStringCellValue();
+	
+		wbook.close();
+		
+	}
+	
+	
+	
 	
 	public static void main(String[] args) throws InterruptedException   {
 		// TODO Auto-generated method stub
 		Covid_Global obj=new Covid_Global();
-	
+
 		
 	
 		try {
@@ -350,21 +356,7 @@ public class Covid_Global {
 		} catch ( InvalidFormatException | ClassNotFoundException | NoClassDefFoundError | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-//		} catch (InvalidFormatException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (NoClassDefFoundError e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-		
-		
-	
+
 		}
 	}
 
