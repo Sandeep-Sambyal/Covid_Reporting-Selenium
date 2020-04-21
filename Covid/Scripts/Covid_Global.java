@@ -287,28 +287,13 @@ public class Covid_Global {
 			 
 			//message.setFrom(new InternetAddress("Sambyalsin@gmail.com"));
 			
-<<<<<<< HEAD
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsandeep31@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("abhisinghpune11@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalpritika@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sourabh2511991@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalgoverdhan@gmail.com"));
-			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsharda@gmail.com"));
 
-=======
 			
 			for (String element: sal) {
 				message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(element));
 	        }
 			
-//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsandeep31@gmail.com"));
-//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("abhisinghpune11@gmail.com"));
-//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalpritika@gmail.com"));
-//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sourabh2511991@gmail.com"));
-//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalgoverdhan@gmail.com"));
-//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsharda@gmail.com"));
-//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("geetanjali.tejwani@gmail.com"));
->>>>>>> change1
+
 
 			
 			
