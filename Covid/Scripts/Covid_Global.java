@@ -3,6 +3,7 @@ package Scripts;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,7 +38,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Covid_Global {
 	WebDriver driver;
-	String cnfrmd,actv,recvrd,dcsd,old_cnfrmd,old_active,old_rcvrd,old_dcsd,a,b,data_tot;
+	String cnfrmd,actv,recvrd,dcsd,old_cnfrmd,old_active,old_rcvrd,old_dcsd,a,b,data_tot,login_id,login_pwd;
+	 String sal[];
 	 //Constructor-------!
 	
 	
@@ -48,9 +50,9 @@ public class Covid_Global {
 	  
 	  System.setProperty("webdriver.gecko.driver",
 	  "C:\\Selenium\\JAR FIles\\geckodriver.exe"); 
-	  //FirefoxOptions options = new  FirefoxOptions(); 
-	  //options.setHeadless(true); 
-	  driver=new  FirefoxDriver(); 
+	  FirefoxOptions options = new  FirefoxOptions(); 
+	  options.setHeadless(true); 
+	  driver=new  FirefoxDriver(options); 
 	  }
 	 
 	
@@ -261,15 +263,20 @@ public class Covid_Global {
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", "465");
-			
+		props.put("mail.smtp.port", "465");
+		 try {
+			mail_values();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	
 			Session session = Session.getDefaultInstance(props,
 					 
 				new Authenticator() {
 
 					protected PasswordAuthentication getPasswordAuthentication() {
 
-					return new PasswordAuthentication("Sambyalsin@gmail.com", "zaq12#wsx");
+					return new PasswordAuthentication(login_id, login_pwd);
 
 					}
 
@@ -280,6 +287,7 @@ public class Covid_Global {
 			 
 			//message.setFrom(new InternetAddress("Sambyalsin@gmail.com"));
 			
+<<<<<<< HEAD
 			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsandeep31@gmail.com"));
 			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("abhisinghpune11@gmail.com"));
 			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalpritika@gmail.com"));
@@ -287,6 +295,20 @@ public class Covid_Global {
 			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalgoverdhan@gmail.com"));
 			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsharda@gmail.com"));
 
+=======
+			
+			for (String element: sal) {
+				message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(element));
+	        }
+			
+//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsandeep31@gmail.com"));
+//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("abhisinghpune11@gmail.com"));
+//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalpritika@gmail.com"));
+//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sourabh2511991@gmail.com"));
+//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalgoverdhan@gmail.com"));
+//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("sambyalsharda@gmail.com"));
+//			message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("geetanjali.tejwani@gmail.com"));
+>>>>>>> change1
 
 			
 			
@@ -337,11 +359,51 @@ public class Covid_Global {
 	}
 	
 
+	public void mail_values() throws IOException {
+		File file=new File("D:\\Data\\education\\Covid reporting\\RecordSheet_COVID.xlsx");
+		
+		FileInputStream inputStream = new FileInputStream(file);
+		XSSFWorkbook wbook= new XSSFWorkbook(inputStream);
+		XSSFSheet sheet= wbook.getSheet("Data");
+		String str="";		
+		int lastcell;
+		//sheet.getLastRowNum();
+		lastcell=sheet.getRow(sheet.getLastRowNum()).getLastCellNum();
+		int lastrow=sheet.getLastRowNum();
+		for (int i = 0; i <= lastrow; i++) {
+			//System.out.println(sheet.getRow(i).getCell(2).getStringCellValue());
+			if (sheet.getRow(i).getCell(3).getStringCellValue().equalsIgnoreCase("Y")) {
+				
+				if (str.equalsIgnoreCase("")) {
+					str=sheet.getRow(i).getCell(2).getStringCellValue();}
+				else {	
+					str=str+","+sheet.getRow(i).getCell(2).getStringCellValue();
+					
+				}
+			}
+		}
+		//System.out.println(str);
+		  sal=str.split(",");
+		 // System.out.println(sal.length);
+		  login_id=sheet.getRow(1).getCell(0).getStringCellValue();
+		  login_pwd=sheet.getRow(1).getCell(1).getStringCellValue();
+//		for (String element: sal) {
+//            System.out.println(element);
+//        }
+//		System.out.println("1,1"+login_id);
+//		System.out.println("1,2"+login_pwd);
+//		
+		wbook.close();
+		
+	}
+	
+	
+	
 	
 	public static void main(String[] args) throws InterruptedException   {
 		// TODO Auto-generated method stub
 		Covid_Global obj=new Covid_Global();
-	
+
 		
 	
 		try {
@@ -350,21 +412,7 @@ public class Covid_Global {
 		} catch ( InvalidFormatException | ClassNotFoundException | NoClassDefFoundError | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-//		} catch (InvalidFormatException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (NoClassDefFoundError e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-		
-		
-	
+
 		}
 	}
 
